@@ -38,7 +38,7 @@
     color: var(--body-text);
     background: var(--white);
     -webkit-font-smoothing: antialiased;
-    padding-bottom: 80px;
+    padding-bottom: 20px;
   }
   img { max-width: 100%; height: auto; display: block; }
   a { text-decoration: none; }
@@ -311,52 +311,18 @@
     margin: 0 auto;
   }
 
-  .floating-cta {
-    position: fixed;
-    bottom: 0; left: 0; right: 0;
-    z-index: 100;
-    padding: 0 11px 10px;
-    pointer-events: none;
-  }
-  .floating-cta-inner {
-    max-width: 720px;
-    margin: 0 auto;
-    background: var(--white);
-    border-radius: 12px;
-    box-shadow: 0 2px 11px rgba(0,0,0,.63);
-    display: flex;
-    align-items: stretch;
-    padding: 8px;
-    pointer-events: all;
-    position: relative;
-  }
-  .floating-cta-close {
-    position: absolute; top: 4px; right: 8px;
-    width: 26px; height: 26px;
-    border-radius: 50%;
-    background: var(--border-gray);
-    border: none;
-    font-size: 18px;
-    cursor: pointer;
-    display: flex; align-items: center; justify-content: center;
-    color: var(--black);
-  }
+  /* FLOATING CTA - right rail, vertically centered, scroll-triggered */
+  .floating-cta { position: fixed; top: 50%; right: 16px; transform: translateY(-50%) translateX(20px); z-index: 100; width: 347px; opacity: 0; pointer-events: none; transition: opacity .4s ease, transform .4s ease; }
+  .floating-cta.visible { opacity: 1; transform: translateY(-50%) translateX(0); pointer-events: all; }
+  .floating-cta-inner { background: var(--white); border-radius: 12px; box-shadow: 0 2px 11px rgba(0,0,0,.63); display: flex; align-items: stretch; padding: 8px; position: relative; }
+  .floating-cta-close { position: absolute; top: 4px; right: 8px; width: 26px; height: 26px; border-radius: 50%; background: var(--border-gray); border: none; font-size: 18px; cursor: pointer; display: flex; align-items: center; justify-content: center; color: var(--black); }
   .floating-cta-img { width: 77px; border-radius: 8px; object-fit: cover; flex-shrink: 0; }
   .floating-cta-content { flex: 1; padding: 2px 8px; display: flex; flex-direction: column; justify-content: center; }
   .floating-cta-title { font-weight: 600; font-size: 14.9px; color: var(--black); letter-spacing: -1.04px; text-align: center; margin-bottom: 4px; }
   .floating-cta-desc { font-weight: 400; font-size: 11.2px; color: #616161; letter-spacing: -0.67px; line-height: 1.3; margin-bottom: 8px; }
-  .floating-cta-btn {
-    display: block;
-    background: var(--black);
-    color: var(--white);
-    font-size: 14px;
-    text-align: center;
-    padding: 7px 16px;
-    border-radius: 15px;
-    letter-spacing: -0.98px;
-    text-decoration: none;
-  }
+  .floating-cta-btn { display: block; background: var(--black); color: var(--white); font-size: 14px; text-align: center; padding: 7px 16px; border-radius: 15px; letter-spacing: -0.98px; text-decoration: none; }
   .floating-cta.hidden { display: none; }
+  @media (max-width: 767px) { .floating-cta { top: auto; bottom: 10px; right: 10px; left: 10px; width: auto; transform: translateY(20px); } .floating-cta.visible { transform: translateY(0); } }
 
   @media (min-width: 768px) {
     .topbar { justify-content: center; gap: 24px; }
@@ -656,7 +622,7 @@
 <!-- FLOATING CTA -->
 <div class="floating-cta" id="floatingCta">
   <div class="floating-cta-inner">
-    <button class="floating-cta-close" onclick="document.getElementById('floatingCta').classList.add('hidden')">×</button>
+    <button class="floating-cta-close">×</button>
     <img src="https://www.figma.com/api/mcp/asset/0f54f6b7-c57a-4c92-8039-63b6d1ccd613" alt="GLP-1 Tone" class="floating-cta-img">
     <div class="floating-cta-content">
       <div class="floating-cta-title">Support your GLP-1 naturally</div>
@@ -665,6 +631,8 @@
     </div>
   </div>
 </div>
+
+<script>(function(){var c=document.getElementById('floatingCta'),d=false;function s(){if(d)return;if(window.scrollY>600){c.classList.add('visible')}else{c.classList.remove('visible')}}window.addEventListener('scroll',s,{passive:true});c.querySelector('.floating-cta-close').addEventListener('click',function(){d=true;c.classList.remove('visible');c.classList.add('hidden')})})();</script>
 
 </body>
 </html>
